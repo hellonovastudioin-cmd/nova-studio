@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+:root {
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  --accent-champagne: #d6b98c;
+  --surface-charcoal: #0c0c0e;
+  --surface-elevated: #141417;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #c8040e;
+  color: #f5f3ee;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #c8040e;
+  color: #f5f3ee;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes scrollCueTrack {
+  0% {
+    transform: translateY(0) scaleY(0.75);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(13px) scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(16px) scaleY(0.6);
+    opacity: 0;
+  }
+}
+
+@keyframes scrollCueSweep {
+  0% {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(220%);
+    opacity: 0;
+  }
+}
+
+@keyframes scrollCueArrow {
+  0%,
+  100% {
+    transform: translateY(-2px);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translateY(3px);
+    opacity: 1;
+  }
+}
+
+@keyframes navHoverPrismFlow {
+  0%,
+  100% {
+    background-position: 0% 0%, 0% 50%;
+  }
+  50% {
+    background-position: 0% 0%, 100% 50%;
+  }
+}
+
+.nav-hover-prism {
+  background-image:
+    radial-gradient(
+      58px 36px at var(--spot-x, 50%) var(--spot-y, 50%),
+      #ffffff 0%,
+      #fff1c4 34%,
+      rgba(214, 185, 140, 0.72) 64%,
+      transparent 100%
+    ),
+    linear-gradient(
+      105deg,
+      #f7e7cc 0%,
+      #d6b98c 24%,
+      #ff7d73 50%,
+      #fff0c2 76%,
+      #f7e7cc 100%
+    );
+  background-size: 100% 100%, 240% 100%;
+  background-position: 0% 0%, 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  will-change: opacity, background-position;
+  animation: navHoverPrismFlow 2.6s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.group:hover .nav-hover-prism,
+.group:focus-visible .nav-hover-prism {
+  animation-play-state: running;
+}
+
+.nav-pill-spotlight {
+  background-image: radial-gradient(
+    90px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(247, 231, 204, 0.24),
+    rgba(255, 255, 255, 0.06) 72%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-scroll-cue {
+    animation: none !important;
+  }
+  .nav-hover-prism {
+    animation: none !important;
+    background-image: none !important;
+    color: #f7e7cc !important;
+    -webkit-text-fill-color: #f7e7cc !important;
+  }
+}
+
+/* Subtle 4px rounded scrollbar on desktop; mobile retains native auto-hiding scroll */
+@media (hover: hover) and (pointer: fine) {
+  @supports not selector(::-webkit-scrollbar) {
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(247, 231, 204, 0.36) transparent;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(247, 231, 204, 0.34);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(214, 185, 140, 0.62);
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background-color: rgba(214, 185, 140, 0.82);
+  }
+}
+
+
+

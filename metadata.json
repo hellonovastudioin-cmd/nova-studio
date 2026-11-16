@@ -1,0 +1,6 @@
+{
+  "name": "NOVA STUDIO",
+  "description": "NOVA STUDIO — Creative production studio shaping film, photography, digital experiences, and visual worlds.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
