@@ -4,15 +4,20 @@ const NAV_LINKS = [
   { id: 'about', label: 'About', href: '#about' },
   { id: 'disciplines', label: 'Disciplines', href: '#disciplines' },
   {
-    id: 'creative-perspective',
+    id: 'perspective',
     label: 'Our Creative Perspective',
-    href: '#creative-perspective',
+    href: '#perspective',
   },
   { id: 'approach', label: 'Approach', href: '#approach' },
   { id: 'contact', label: 'Contact', href: '#contact' },
 ];
 
-export function Navbar() {
+interface NavbarProps {
+  currentRoute?: string;
+  onNavigateHomeSection?: (sectionId: string) => void;
+}
+
+export function Navbar({ currentRoute = '/', onNavigateHomeSection }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState<string>('hero');
 
@@ -28,6 +33,11 @@ export function Navbar() {
   }, [menuOpen]);
 
   useEffect(() => {
+    if (currentRoute !== '/') {
+      setActiveId('');
+      return;
+    }
+
     const sectionIds = ['hero', ...NAV_LINKS.map((l) => l.id)];
     const elements = sectionIds
       .map((id) => document.getElementById(id))
@@ -50,14 +60,21 @@ export function Navbar() {
 
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [currentRoute]);
 
   const handleNavClick = (
     event: React.MouseEvent<HTMLAnchorElement>,
     targetId: string
   ) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     setMenuOpen(false);
+
+    if (currentRoute !== '/' && onNavigateHomeSection) {
+      onNavigateHomeSection(targetId);
+      return;
+    }
+
     const target = document.getElementById(targetId);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });

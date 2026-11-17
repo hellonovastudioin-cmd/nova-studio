@@ -1,9 +1,27 @@
+import { MouseEvent } from 'react';
+import { AppRoutePath, LEGAL_PAGES, LEGAL_ROUTES } from '../data/legalContent';
 import { AnimatedButton } from './AnimatedButton';
 import { Reveal } from './Reveal';
 
-export function Footer() {
+interface FooterProps {
+  currentRoute?: string;
+  onNavigate?: (path: AppRoutePath) => void;
+}
+
+export function Footer({ currentRoute = '/', onNavigate }: FooterProps) {
   const handleBackToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleLegalClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    path: AppRoutePath
+  ) => {
+    if (!onNavigate || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return;
+    }
+    event.preventDefault();
+    onNavigate(path);
   };
 
   return (
@@ -33,9 +51,43 @@ export function Footer() {
         </div>
 
         <Reveal delay={160} distance="sm" threshold={0.02} rootMargin="0px">
-          <div className="pt-6 border-t border-white/15 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[12px] text-white/65">
-            <span>© 2026 NOVA STUDIO. All rights reserved.</span>
-            <span>Email &amp; social channels will appear once supplied.</span>
+          <div className="pt-6 border-t border-white/15 flex flex-col gap-4">
+            <nav
+              aria-label="Legal and policy navigation"
+              className="flex flex-wrap items-center gap-x-6 gap-y-1 text-[12px]"
+            >
+              {LEGAL_ROUTES.map((path) => {
+                const isActive = currentRoute === path;
+                return (
+                  <a
+                    key={path}
+                    href={path}
+                    aria-current={isActive ? 'page' : undefined}
+                    onClick={(e) => handleLegalClick(e, path)}
+                    className={`min-h-[44px] inline-flex items-center transition-colors ${
+                      isActive
+                        ? 'text-[#f7e7cc] underline decoration-[#d6b98c]/60 underline-offset-4'
+                        : 'text-white/75 hover:text-[#f7e7cc]'
+                    }`}
+                  >
+                    {LEGAL_PAGES[path].navLabel}
+                  </a>
+                );
+              })}
+            </nav>
+
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[12px] text-white/65">
+              <span>© 2026 NOVA STUDIO. All rights reserved.</span>
+              <span>
+                Creative Production Agency · India ·{' '}
+                <a
+                  href="mailto:hello.novastudio.in@gmail.com"
+                  className="text-white/80 hover:text-[#f7e7cc] underline decoration-white/25 underline-offset-4 transition-colors"
+                >
+                  hello.novastudio.in@gmail.com
+                </a>
+              </span>
+            </div>
           </div>
         </Reveal>
       </div>
